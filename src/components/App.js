@@ -18,7 +18,6 @@ function App() {
     });
   }, []);
 
-  console.log(userObj);
   return (
     <>
       {init ? (
