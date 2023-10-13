@@ -4,6 +4,7 @@ import { authService } from "../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [init, setInit] = useState(false);
   const [userObj, setUserObj] = useState(null);
 
@@ -12,16 +13,22 @@ function App() {
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        setIsLoggedIn(true);
+
         setUserObj(user.uid);
+      } else {
+        // User is signed out
+        setIsLoggedIn(false);
       }
       setInit(true);
     });
   }, []);
 
+  console.log(userObj);
   return (
     <>
       {init ? (
-        <AppRouter isLoggedIn={Boolean(userObj)} userObj={userObj} />
+        <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} />
       ) : (
         "회원정보 확인중..."
       )}
